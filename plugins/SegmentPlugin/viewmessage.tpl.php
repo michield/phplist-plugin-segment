@@ -1,7 +1,7 @@
 <?php
 /**
- * SegmentPlugin for phplist
- * 
+ * SegmentPlugin for phplist.
+ *
  * This file is a part of SegmentPlugin.
  *
  * SegmentPlugin is free software: you can redistribute it and/or modify
@@ -12,34 +12,37 @@
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * @category  phplist
- * @package   SegmentPlugin
+ *
  * @author    Duncan Cameron
- * @copyright 2014-2015 Duncan Cameron
+ * @copyright 2014-2016 Duncan Cameron
  * @license   http://www.gnu.org/licenses/gpl.html GNU General Public License, Version 3
  */
 
 /**
- * Plugin class
- * 
+ * Plugin class.
+ *
  * @category  phplist
- * @package   SegmentPlugin
  */
 ?>
-<?php echo file_get_contents($this->coderoot . 'styles.css'); ?>
+<?php echo file_get_contents($this->coderoot . 'styles.html'); ?>
 
 <div class="segment">
     <div><?php echo s('Subscribers match %s of the following:', $combine); ?></div>
     <ul>
-    <?php foreach ($condition as $c) : ?>
+<?php foreach ($condition as $c) : ?>
         <li class="selfclear">
+    <?php if (isset($c->error)): ?>
+            <div class="note"><?php echo $c->error; ?></div>
+    <?php else: ?>
             <div class="segment-block"><?php echo $c->field ?></div>
             <div class="segment-block"><?php echo $c->operator; ?></div>
             <div class="segment-block">
                 <fieldset disabled><?php echo $c->display; ?></fieldset>
             </div>
+    <?php endif; ?>
         </li>
-    <?php endforeach; ?>
+<?php endforeach; ?>
     </ul>
 </div>

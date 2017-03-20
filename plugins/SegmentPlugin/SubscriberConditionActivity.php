@@ -1,7 +1,7 @@
 <?php
 /**
- * SegmentPlugin for phplist
- * 
+ * SegmentPlugin for phplist.
+ *
  * This file is a part of SegmentPlugin.
  *
  * SegmentPlugin is free software: you can redistribute it and/or modify
@@ -12,21 +12,17 @@
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * @category  phplist
- * @package   SegmentPlugin
+ *
  * @author    Duncan Cameron
- * @copyright 2014-2015 Duncan Cameron
+ * @copyright 2014-2016 Duncan Cameron
  * @license   http://www.gnu.org/licenses/gpl.html GNU General Public License, Version 3
  */
 
 /**
- * 
- * 
  * @category  phplist
- * @package   SegmentPlugin
  */
-
 class SegmentPlugin_SubscriberConditionActivity extends SegmentPlugin_Condition
 {
     public function operators()
@@ -62,12 +58,12 @@ class SegmentPlugin_SubscriberConditionActivity extends SegmentPlugin_Condition
     public function joinQuery($operator, $value)
     {
         if (!ctype_digit($value)) {
-            throw new SegmentPlugin_ValueException;
+            throw new SegmentPlugin_ValueException();
         }
 
         $um = 'um' . $this->id;
         $uml = 'uml' . $this->id;
-        $r = new stdClass;
+        $r = new stdClass();
 
         if ($operator == SegmentPlugin_Operator::CLICKED || $operator == SegmentPlugin_Operator::NOTCLICKED) {
             $op = $operator == SegmentPlugin_Operator::CLICKED ? 'IS NOT NULL' : 'IS NULL';
@@ -76,7 +72,6 @@ class SegmentPlugin_SubscriberConditionActivity extends SegmentPlugin_Condition
                 LEFT JOIN {$this->tables['linktrack_uml_click']} $uml ON u.id = $uml.userid AND $uml.messageid = $um.messageid
 END;
             $r->where = "$uml.userid $op";
-            
         } elseif ($operator == SegmentPlugin_Operator::OPENED || $operator == SegmentPlugin_Operator::NOTOPENED) {
             $op = $operator == SegmentPlugin_Operator::OPENED ? 'IS NOT NULL' : 'IS NULL';
             $r->join = <<<END
@@ -90,6 +85,7 @@ END;
 END;
             $r->where = "$um.userid $op";
         }
+
         return $r;
     }
 }

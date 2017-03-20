@@ -1,7 +1,7 @@
 <?php
 /**
- * SegmentPlugin for phplist
- * 
+ * SegmentPlugin for phplist.
+ *
  * This file is a part of SegmentPlugin.
  *
  * SegmentPlugin is free software: you can redistribute it and/or modify
@@ -12,26 +12,22 @@
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * @category  phplist
- * @package   SegmentPlugin
+ *
  * @author    Duncan Cameron
- * @copyright 2014-2015 Duncan Cameron
+ * @copyright 2014-2016 Duncan Cameron
  * @license   http://www.gnu.org/licenses/gpl.html GNU General Public License, Version 3
  */
 
 /**
- * 
- * 
  * @category  phplist
- * @package   SegmentPlugin
  */
-
 class SegmentPlugin_SubscriberConditionEntered extends SegmentPlugin_DateConditionBase
 {
     public function joinQuery($operator, $value)
     {
-        $r = new stdClass;
+        $r = new stdClass();
         $r->join = '';
 
         if ($operator == SegmentPlugin_Operator::AFTERINTERVAL) {
@@ -45,11 +41,12 @@ class SegmentPlugin_SubscriberConditionEntered extends SegmentPlugin_DateConditi
                 $value2 = sql_escape($value2);
                 $r->where = "DATE(u.entered) BETWEEN '$value1' AND '$value2'";
             } else {
-                $op = $operator == SegmentPlugin_Operator::BEFORE ? '<' 
+                $op = $operator == SegmentPlugin_Operator::BEFORE ? '<'
                     : ($operator == SegmentPlugin_Operator::AFTER ? '>' : '=');
                 $r->where = "DATE(u.entered) $op '$value1'";
             }
         }
+
         return $r;
     }
 }

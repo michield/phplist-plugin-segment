@@ -1,7 +1,7 @@
 <?php
 /**
- * SegmentPlugin for phplist
- * 
+ * SegmentPlugin for phplist.
+ *
  * This file is a part of SegmentPlugin.
  *
  * SegmentPlugin is free software: you can redistribute it and/or modify
@@ -12,21 +12,17 @@
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * @category  phplist
- * @package   SegmentPlugin
+ *
  * @author    Duncan Cameron
- * @copyright 2014-2015 Duncan Cameron
+ * @copyright 2014-2016 Duncan Cameron
  * @license   http://www.gnu.org/licenses/gpl.html GNU General Public License, Version 3
  */
 
 /**
- * 
- * 
  * @category  phplist
- * @package   SegmentPlugin
  */
-
 class SegmentPlugin_AttributeConditionCheckboxgroup extends SegmentPlugin_Condition
 {
     public function operators()
@@ -53,7 +49,7 @@ class SegmentPlugin_AttributeConditionCheckboxgroup extends SegmentPlugin_Condit
     public function joinQuery($operator, $value)
     {
         if (!is_array($value) || count($value) == 0) {
-            throw new SegmentPlugin_ValueException;
+            throw new SegmentPlugin_ValueException();
         }
 
         $ua = 'ua' . $this->id;
@@ -65,7 +61,7 @@ class SegmentPlugin_AttributeConditionCheckboxgroup extends SegmentPlugin_Condit
         } elseif ($operator == SegmentPlugin_Operator::ALL) {
             $compare = '>';
             $boolean = 'AND';
-        } else  {
+        } else {
             $compare = '=';
             $boolean = 'AND';
         }
@@ -74,9 +70,10 @@ class SegmentPlugin_AttributeConditionCheckboxgroup extends SegmentPlugin_Condit
             $where[] = "FIND_IN_SET($item, COALESCE($ua.value, '')) $compare 0";
         }
 
-        $r = new stdClass;
+        $r = new stdClass();
         $r->join = "LEFT JOIN {$this->tables['user_attribute']} $ua ON u.id = $ua.userid AND $ua.attributeid = {$this->field['id']} ";
         $r->where = '(' . implode(" $boolean ", $where) . ')';
+
         return $r;
     }
 }
