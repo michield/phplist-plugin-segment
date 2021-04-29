@@ -16,40 +16,39 @@
  * @category  phplist
  *
  * @author    Duncan Cameron
- * @copyright 2014-2016 Duncan Cameron
+ * @copyright 2014-2018 Duncan Cameron
  * @license   http://www.gnu.org/licenses/gpl.html GNU General Public License, Version 3
  */
 
-/**
- * @category  phplist
- */
-class SegmentPlugin_Operator
-{
-    const IS = 1;
-    const ISNOT = 2;
-    const MATCHES = 3;
-    const NOTMATCHES = 4;
-    const REGEXP = 5;
-    const NOTREGEXP = 6;
-    const BLANK = 7;
-    const NOTBLANK = 8;
-    const BEFORE = 9;
-    const AFTER = 10;
-    const OPENED = 11;
-    const NOTOPENED = 12;
-    const ONE = 13;
-    const ALL = 14;
-    const NONE = 15;
-    const SENT = 16;
-    const NOTSENT = 17;
-    const CLICKED = 18;
-    const NOTCLICKED = 19;
-    const BETWEEN = 20;
-    const AFTERINTERVAL = 21;
-    const ISINCLUDED = 22;
-    const ANNIVERSARY = 23;
+namespace phpList\plugin\SegmentPlugin;
 
-    private function __construct()
+use phpList\plugin\Common\IExportable;
+
+class SelectedSubscribersExport implements IExportable
+{
+    public function __construct($messageId, $subscribers)
     {
+        $this->messageId = $messageId;
+        $this->subscribers = $subscribers;
+    }
+
+    public function exportFileName()
+    {
+        return "segment_subscribers_$this->messageId";
+    }
+
+    public function exportRows()
+    {
+        return $this->subscribers;
+    }
+
+    public function exportFieldNames()
+    {
+        return ['email'];
+    }
+
+    public function exportValues(array $row)
+    {
+        return [$row['email']];
     }
 }

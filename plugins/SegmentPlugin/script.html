@@ -14,8 +14,12 @@ $(function() {
 });
 
 $(document).ready(function(){
-   $("#segment_usesaved").select2({
+    $("select[multiple]").select2({
+        placeholder: "Click",
+        width: "resolve",
         theme: "classic"
+    });
+    $("select.searchable").select2({
     });
 });
 </script>

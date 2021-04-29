@@ -23,13 +23,12 @@
 /**
  * @category  phplist
  */
-class SegmentPlugin_AttributeConditionCheckbox extends SegmentPlugin_Condition
+class SegmentPlugin_SubscriberConditionLists extends SegmentPlugin_Condition
 {
     public function operators()
     {
         return array(
-            SegmentPlugin_Operator::IS => s('is checked'),
-            SegmentPlugin_Operator::ISNOT => s('is not checked'),
+            SegmentPlugin_Operator::ALL => s('Belongs to all selected lists'),
         );
     }
 
@@ -40,12 +39,24 @@ class SegmentPlugin_AttributeConditionCheckbox extends SegmentPlugin_Condition
 
     public function joinQuery($operator, $value)
     {
-        $ua = $this->createUniqueAlias('ua');
-        $op = $operator == SegmentPlugin_Operator::IS ? '=' : '!=';
-
+        $lu = $this->createUniqueAlias('lu');
+        $lm = $this->createUniqueAlias('lm');
         $r = new stdClass();
-        $r->join = "LEFT JOIN {$this->tables['user_attribute']} $ua ON u.id = $ua.userid AND $ua.attributeid = {$this->field['id']} ";
-        $r->where = "COALESCE($ua.value, '') $op 'on'";
+        $r->join = '';
+        $r->where = <<<END
+            (
+                SELECT COUNT(*)
+                FROM {$this->tables['listuser']} AS $lu
+                JOIN {$this->tables['listmessage']} AS $lm ON $lm.listid = $lu.listid
+                WHERE $lu.userid = u.id AND $lm.messageid = {$this->messageData['id']}
+            )
+            =
+            (
+                SELECT COUNT(*)
+                FROM {$this->tables['listmessage']}
+                WHERE messageid = {$this->messageData['id']}
+            )
+END;
 
         return $r;
     }

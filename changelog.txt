@@ -1,3 +1,94 @@
+version 2.12.1+20210428
+      Allow the plugin to be a dependency of phplist.
+
+version 2.12.0+20210225
+      Add base translations
+      Simplify whether campaign can be submitted
+
+version 2.11.0+20201212
+      Correct docblock comments
+      Support aggregated campaigns for sent and clicked
+
+version 2.10.1+20200515
+      Make the dependency check message clearer
+      Bring PHP CS Fixer up to date
+
+version 2.10.0+20200307
+      Rework handling of attribute DAO
+      Make the select list of subscriber fields and attributes searchable using Select2
+
+version 2.9.0+20191231
+      Add aggregated campaigns to subscriber campaigns opened/not opened
+
+version 2.8.0+20190212
+      Add anniversary operator for date attribute field
+      Reinstate processing of IS operator for date fields
+
+version 2.7.0+20181115
+      Add condition for date subscribed to list
+      Refactor joinQuery() for each date field
+      Update cs config to not apply yoda rules.
+
+version 2.6.1+20181104
+      When sending a campaign log an event showing the number of subscribers selected
+      Update English translations
+
+version 2.6.0+20181103
+      Add condition for subscriber belonging to all lists selected for the campaign
+      Rework how messageData is provided when creating a condition
+      Rename method and variables for condition type
+      Fix error in earlier commit of creating segment only once
+
+version 2.5.1+20181003
+      Fix earlier regression that limited the number of attributes to 15.
+      Fixes #18
+
+version 2.5.0+20180906
+Aris (1):
+      Option to segment according to a textarea filled with emails
+
+version 2.4.0+20180905
+      Refactor condition handling into new class
+      Move calculation of subscribers into the Segment class
+      Store selected subscribers for each campaign
+      Refactor use of limit when calculating subscribers
+      Add export of selected subscribers
+      Add dependency container
+      Improve handling of empty and changed fields
+      Ensure segment is created only once
+      Further refactoring
+
+version 2.3.0+20180722
+      Simplify condition factory and use of attributes
+      Display subscribers that meet the segment conditions
+
+version 2.2.7+20180517
+      Remove constant scalar expression to avoid dependency on php 5.6
+
+version 2.2.6+20180328
+      Reduce the level of php errors that are reported.
+      Allow warning to be translated. Fixes #15.
+
+version 2.2.5+20171218
+      Improve the layout of the Segment tab
+
+version 2.2.4+20171109
+      Improve display of multiple-select
+      Clarify the warning displayed when no lists have been selected. Fixes #13.
+      Add English translation file as basis for other languages
+
+version 2.2.3+20171023
+      Display the saved segments fields only when there is at least one.
+      Display the save segment input field and load button only when there is at least one condition.
+Sam Tuke:
+      Left align condition rows, other layout improvements. Fixes #12
+
+version 2.2.2+20171018
+      Add warnings when no lists have been selected or no campaigns sent to the selected lists.
+      Re-position some of the command buttons.
+      Refactor creating table aliases
+      Coding standard changes
+
 version 2.2.1+20170208
       Upgrade for version 2 of cs fixer. Use recommended file name.
       Coding standards changes, mostly remove trailing white space.

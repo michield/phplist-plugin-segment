@@ -23,7 +23,7 @@
 /**
  * @category  phplist
  */
-class SegmentPlugin_SubscriberConditionEntered extends SegmentPlugin_DateConditionBase
+class SegmentPlugin_SubscriberConditionListEntered extends SegmentPlugin_DateConditionBase
 {
     protected function queryCallBacks()
     {
@@ -32,19 +32,19 @@ class SegmentPlugin_SubscriberConditionEntered extends SegmentPlugin_DateConditi
                 return '';
             },
             SegmentPlugin_Operator::AFTERINTERVAL => function ($interval) {
-                return "CURDATE() = DATE(u.entered) + INTERVAL $interval";
+                return "CURDATE() = DATE(lu0.entered) + INTERVAL $interval";
             },
             SegmentPlugin_Operator::BETWEEN => function ($start, $end) {
-                return "DATE(u.entered) BETWEEN '$start' AND '$end'";
+                return "DATE(lu0.entered) BETWEEN '$start' AND '$end'";
             },
             SegmentPlugin_Operator::IS => function ($date) {
-                return "DATE(u.entered) = '$date'";
+                return "DATE(lu0.entered) = '$date'";
             },
             SegmentPlugin_Operator::BEFORE => function ($date) {
-                return "DATE(u.entered) < '$date'";
+                return "DATE(lu0.entered) < '$date'";
             },
             SegmentPlugin_Operator::AFTER => function ($date) {
-                return "DATE(u.entered) > '$date'";
+                return "DATE(lu0.entered) > '$date'";
             },
         ];
     }

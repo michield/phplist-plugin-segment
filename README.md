@@ -5,15 +5,17 @@
 The plugin allows you to send a campaign to a segment, a subset, of the subscribers who belong to the selected lists.
 
 The plugin adds a tab to the Send a campaign page that lets you define conditions. A condition comprises a field, an operator, and a target value.
-When the campaign is sent only those subscribers who meet either any or all of the conditions will be selected. 
+When the campaign is sent only those subscribers who meet either any or all of the conditions will be selected.
 
 These subscriber fields and attributes are supported for fields:
 
 * each subscriber attribute
 * the subscriber email address
-* the subscriber Entered date
 * the subscriber id
 * the subscriber unique id
+* the date they signed-up to phpList
+* the date they subscribed to the lists to which the campaign is being sent
+* the subscriber belongs to all lists to which the campaign is being sent
 * subscriber campaign activity - whether the subscriber was sent, opened, or clicked a link in a specific prior campaign
 
 Each condition has a set of operators, specific to each field, such as 'is', 'is not', 'matches', 'is before', 'opened', etc.
@@ -24,26 +26,15 @@ The target value, also specific to each field, can be a text value, a select val
 
 ### Dependencies ###
 
-Requires php version 5.4.0 or later. Please check your php version before installing the plugin, otherwise phplist will fail (probably a white page).
+Requires phplist version 3.3.2 or later, and php version 5.4.0 or later.
+Please check your php version before installing the plugin, otherwise phplist will fail (probably a white page).
 
-This plugin requires the Common Plugin version 3.5.6 or greater to also be installed, and will not work without that.
-**You must install that plugin or upgrade to the latest version if it is already installed**.
+This plugin requires the Common Plugin version 3.11.0 or greater to be installed, and will not work without that.
+That plugin is now included in phplist so you should only need to enable it.
 See <https://github.com/bramley/phplist-plugin-common>
-
-### Set the plugin directory ###
-The default plugin directory is `plugins` within the admin directory.
-
-You can use a directory outside of the web root by changing the definition of `PLUGIN_ROOTDIR` in config.php.
-The benefit of this is that plugins will not be affected when you upgrade phplist.
 
 ### Install through phplist ###
 Install on the Plugins page (menu Config > Plugins) using the package URL `https://github.com/bramley/phplist-plugin-segment/archive/master.zip`
-
-In phplist releases 3.0.5 and earlier there is a bug that can cause a plugin to be incompletely installed on some configurations (<https://mantis.phplist.com/view.php?id=16865>). 
-Check that these files are in the plugin directory. If not then you will need to install manually. The bug has been fixed in release 3.0.6.
-
-* the file SegmentPlugin.php
-* the directory SegmentPlugin
 
 ### Install manually ###
 Download the plugin zip file from <https://github.com/bramley/phplist-plugin-segment/archive/master.zip>
@@ -54,16 +45,17 @@ This should contain
 * the file SegmentPlugin.php
 * the directory SegmentPlugin
 
-###Settings###
+### Settings ###
 In the Segmentation group on the Settings page you can specify:
 
 * The size of the list of previous campaigns for Campaign activity. The default is 10.
+* The number of subscribers to display who meet the segment conditions. The default is 50.
 
-##Usage##
+## Usage ##
 
 For guidance on usage see the plugin page within the phplist documentation site <https://resources.phplist.com/plugin/segment>
 
-##Support##
+## Support ##
 
 Please raise any questions or problems in the user forum <https://discuss.phplist.org/>.
 
@@ -75,6 +67,26 @@ This plugin is free but if you install and find it useful then a donation to sup
 ## Version history ##
 
     version         Description
+    2.12.1+20210428 Allow the plugin to be a dependency of phplist
+    2.12.0+20210225 Simplify whether campaign can be submitted
+    2.11.0+20201212 Support aggregated campaigns for sent and clicked
+    2.10.1+20200515 Make the dependency check message clearer
+    2.10.0+20200307 Allow searching select list of subscriber fields and attributes
+    2.9.0+20191231  Add aggregated campaigns to subscriber campaigns opened/not opened
+    2.8.0+20190212  Add anniversary operator for date attribute field
+    2.7.0+20181115  Add condition for date subscribed to list
+    2.6.1+20181104  When sending a campaign log an event showing the number of subscribers selected
+    2.6.0+20181103  Add condition for subscriber belonging to all lists selected for the campaign
+    2.5.1+20181003  Fix earlier regression that limited the number of attributes to 15
+    2.5.0+20180906  Segment according to a textarea filled with emails
+    2.4.0+20180905  Add export of selected subscribers
+    2.3.0+20180722  Display subscribers that meet the segment conditions
+    2.2.7+20180517  Avoid dependency on php 5.6
+    2.2.6+20180328  Reduce the level of php errors that are reported
+    2.2.5+20171218  Improve the layout of the Segment tab
+    2.2.4+20171109  Improve display of multiple-select
+    2.2.3+20171023  Improvements to layout of the Segment tab
+    2.2.2+20171018  Display warning when lists have not been selected
     2.2.1+20170208  Copy segment fields when copying a campaign
     2.2.0+20170126  Improvements to use of saved segments
     2.1.11+20161217 Extra validation of from and to dates

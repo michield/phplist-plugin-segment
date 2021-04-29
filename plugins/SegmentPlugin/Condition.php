@@ -26,17 +26,44 @@
 abstract class SegmentPlugin_Condition
 {
     private static $count = 0;
+    private $id;
 
     protected $field;
-    protected $id;
     protected $tables;
     protected $table_prefix;
 
+    // set by ConditionFactory
     public $dao;
+    public $messageData;
 
     protected function formatInList(array $values)
     {
         return '(' . implode(', ', $values) . ')';
+    }
+
+    /**
+     * Create a comma separated list of the quoted array values for use in an sql statement.
+     *
+     * @param array values to be combined
+     *
+     * @return string
+     */
+    protected function commaQuotedList(array $values)
+    {
+        return implode(
+            ', ',
+            array_map(
+                function ($item) {
+                    return "'" . sql_escape($item) . "'";
+                },
+                $values
+            )
+        );
+    }
+
+    protected function createUniqueAlias($alias)
+    {
+        return $alias . $this->id;
     }
 
     public function __construct($field)

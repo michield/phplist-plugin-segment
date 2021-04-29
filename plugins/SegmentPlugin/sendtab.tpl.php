@@ -29,13 +29,32 @@
 <?php echo file_get_contents($this->coderoot . 'styles.html'); ?>
 
 <div class="segment">
-    <div>
-<?php
-    echo s("Select one or more subscriber fields or attributes.
-The campaign will be sent only to those subscribers who match any or all of the conditions.
-To remove a condition, choose '%s' from the drop-down list.", $selectPrompt);
-?>
+<?php if (isset($warning)): ?>
+    <div class="error">
+        <?php echo $warning; ?>
     </div>
+<?php endif; ?>
+    <div class="note">
+<?php
+    $sentence1 = s('Select one or more subscriber fields or attributes.');
+    $sentence2 = s('The campaign will be sent only to those subscribers who match any or all of the conditions.');
+    $sentence3 = s('To remove a condition set it to "%s" from the list.', '<em>' . $selectPrompt . '</em>');
+    echo $sentence1, ' ', $sentence2, ' ', $sentence3;
+?>
+&nbsp;
+<?php echo $help; ?>
+    </div>
+<?php if (isset($savedList)): ?>
+    <div class="field">
+        <label>
+    <?php echo s('Use one or more saved segments. They will be added to any conditions below.'); ?>
+        </label>
+    <?php echo $savedList; ?>
+    <?php echo $loadButton ?>
+    <?php echo $settingsButton ?>
+    </div>
+    <hr class="separator"/>
+<?php endif; ?>
     <div><?php echo s('Subscribers match %s of the following:', $combineList); ?></div>
     <ul>
 <?php foreach ($condition as $c) : ?>
@@ -43,11 +62,6 @@ To remove a condition, choose '%s' from the drop-down list.", $selectPrompt);
     <?php if (isset($c->error)): ?>
             <div class="note"><?php echo $c->error; ?></div>
     <?php else: ?>
-        <?php if (isset($c->caption)): ?>
-            <div>
-                <b><?php echo $c->caption; ?></b>
-            </div>
-        <?php endif; ?>
             <div class="segment-block"><?php echo $c->fieldList, $c->hiddenField; ?></div>
             <div class="segment-block">
         <?php
@@ -64,34 +78,38 @@ To remove a condition, choose '%s' from the drop-down list.", $selectPrompt);
         </li>
 <?php endforeach; ?>
     </ul>
-    <div>
-        <label>
-<?php echo s('Use one or more saved segments. They will be added to any conditions already entered.'); ?>
-<br/>
-<?php echo $savedList; ?>
-&nbsp;<?php echo $loadButton ?>
-        </label>
-    </div>
     <div id="recalculate">
-<?php echo $removeButton ?>
+<?php if (isset($removeButton)) echo $removeButton; ?>
 <?php echo $calculateButton ?>
-<?php if (isset($totalSubscribers)):
-    echo s('%d subscribers will be selected', $totalSubscribers);
-endif; ?>
-<?php if (isset($warning)): ?> <span class="error"><?php echo $warning; ?></span><?php endif; ?>
+<?php if (isset($totalSubscribers)): ?>
+    <?php echo $exportCalculatedButton ?>
+        <div class="note">
+    <?php echo s('%d subscribers will be selected.', $totalSubscribers); ?>
+    <?php if ($totalSubscribers > count($subscribers)): echo s('First %d subscribers:', count($subscribers)); endif; ?>
+            <br/>
+    <?php foreach ($subscribers as $subscriber): ?>
+        <?= $subscriber['email']; ?>
+            <br/>
+    <?php endforeach; ?>
+        </div>
+<?php endif; ?>
     </div>
-    <label>
-<?php echo s('Save the current segment (set of conditions).'); ?>
-        <br/>
+<?php if (isset($saveName)): ?>
+    <div class="field">
+        <hr class="separator"/>
+        <label>
+    <?php echo s('Save the current set of conditions'); ?>
+        </label>
         <div class="segment-block">
     <?php echo $saveName; ?>
         </div>
         <div class="segment-block">
     <?php echo $saveButton; ?>
         </div>
-    </label>
-    <div class="segment-block">
-<?php echo $settings; ?>
-        <a href="https://resources.phplist.com/plugin/segment#add_segment_conditions" target="_blank">Guidance on usage</a>
     </div>
+<?php endif; ?>
 </div>
+<?php
+global $plugins;
+
+require $plugins['CommonPlugin']->coderoot . 'dialog_js.php';
